@@ -10,7 +10,7 @@ version          '0.1.0'
 depends 'nginx', '2.2.2'
 depends "rightscale"
 
-recipe 'rsc-nginx::defautl', 'Install nginx'
+recipe 'rsc-nginx::default', 'Install nginx'
 
 attribute "nginx/version",
   :display_name => "nginx version",

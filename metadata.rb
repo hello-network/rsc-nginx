@@ -17,3 +17,11 @@ attribute "nginx/version",
   :description => "Indicate which version of nginx to install",
   :required => "optional",
   :recipes => ['rsc-nginx::default']
+
+attribute "nginx/install_method",
+  :display_name => "nginx install method",
+  :description => "How nginx will be installed.",
+  :default => "source",
+  :choose => ['source','package'],
+  :required => "optional",
+  :recipes => ['rsc-nginx::default']

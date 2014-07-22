@@ -10,6 +10,8 @@ version          '0.1.0'
 depends "rightscale"
 
 recipe 'rsc-nginx::default', 'Install nginx'
+recipe 'rsc-nginx::start_server', 'start nginx'
+recipe 'rsc-nginx::stop-server', 'stop nginx'
 
 attribute "nginx/version",
   :display_name => "nginx version",

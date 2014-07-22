@@ -79,8 +79,7 @@ Vagrant.configure("2") do |config|
       },
       cloud:{private_ips: ['1.2.3.4'],provider: 'vagrant'},
        nginx:{
-        version: '1.6.0',
-        install_method: 'source'
+        version: '1.6.0-2'
     },
       }
     

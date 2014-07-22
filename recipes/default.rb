@@ -17,7 +17,27 @@
 # limitations under the License.
 #
 
+rightscale_marker :begin
 
-node.override['ohai']['plugin_path']="/opt/rightscale/sandbox/lib/ruby/gems/1.8/gems/ohai-0.6.12.1/lib/ohai/plugins"
+log "Installing nginx from remote package"
+case node[:platform]
+when "centos"
 
-include_recipe 'nginx'
+  file = "nginx-#{node[:nginx][:version]}.el6.ngx.x86_64.rpm"
+  remote_file "/tmp/#{file}" do
+    source "http://nginx.org/packages/centos/6/x86_64/RPMS/#{file}"
+  end
+  
+  rpm_package "nginx" do
+    source "/tmp/#{file}" 
+    action :install
+  end
+  
+when "ubuntu"
+  log "no implemented for Ubuntu yet"
+else
+  log "OS not supported"
+end
+
+rightscale_marker :end
+

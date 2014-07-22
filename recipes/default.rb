@@ -18,5 +18,6 @@
 #
 
 
+node.override['ohai']['plugin_path']="/opt/rightscale/sandbox/lib/ruby/gems/1.8/gems/ohai-0.6.12.1/lib/ohai/plugins"
 
 include_recipe 'nginx'

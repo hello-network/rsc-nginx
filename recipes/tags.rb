@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: rsc-nginx
-# Recipe:: default
+# Recipe:: tags
 #
 # Copyright (C) 2014 RightScale, Inc.
 #
@@ -21,6 +21,15 @@ marker "recipe_start_rightscale" do
   template "rightscale_audit_entry.erb"
 end
 
+include_recipe 'rightscale_tag::default'
 
-include_recipe "nginx::default"
+# Validate application name
+RsApplicationNginx::Helper.validate_application_name(node['rsc-nginx']['application_name'])
 
+# Set up application server tags
+rightscale_tag_application node['rsc-nginx']['application_name'] do
+  bind_ip_address RsApplicationNginx::Helper.get_bind_ip_address(node)
+  bind_port node['rsc-nginx']['listen_port'].to_i
+  vhost_path node['rsc-nginx']['vhost_path']
+  action :create
+end

@@ -6,14 +6,14 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "nginx-berkshelf"
 
   # Every Vagrant virtual environment requires a box to build off of.   
-  #config.vm.box = "opscode-ubuntu-12.04"
+  config.vm.box = "opscode-ubuntu-14.04"
   #config.vm.box = "centos6.5"
-  config.vm.box ="opscode-centos-6.5"
+  #config.vm.box ="opscode-centos-6.5"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  #config.vm.box_url = "https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box"
-  config.vm.box_url ="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.5_chef-provisionerless.box"
+  config.vm.box_url = "https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-14.04_provisionerless.box"
+  #onfig.vm.box_url ="http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.5_chef-provisionerless.box"
   
   # Assign this VM to a host-only network IP, allowing you to access it
   # via the IP. Host-only networks can talk to the host machine as well as
@@ -35,7 +35,7 @@ Vagrant.configure("2") do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-   config.vm.synced_folder "~/vagrant", "/vagrant", disabled: true
+  config.vm.synced_folder "~/vagrant", "/vagrant", disabled: true
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -63,7 +63,7 @@ Vagrant.configure("2") do |config|
   # to exclusively install and copy to Vagrant's shelf.
   # config.berkshelf.only = []
 
-  config.omnibus.chef_version = :latest
+  config.omnibus.chef_version =  '11.6.0'
 
   # An array of symbols representing groups of cookbook described in the Vagrantfile
   # to skip installing and copying to Vagrant's shelf.
@@ -77,14 +77,22 @@ Vagrant.configure("2") do |config|
       :vagrant => {
         :box_name => 'rsc-nginx'
       },
+      'rs-base' => {
+        'collectd_server' => 'sketchy1-66.rightscale.com'
+      },
       cloud:{private_ips: ['1.2.3.4'],provider: 'vagrant'},
-       nginx:{
-        version: '1.6.0-2'
-    },
-      }
+      nginx:{
+        install_method: 'package'
+      },
+    }
     
     chef.run_list = [
+      "recipe[apt::default]",
+      #"recipe[yum-epel]",
+      "recipe[rs-base::default]", 
       "recipe[rsc-nginx::default]", 
+      "recipe[rsc-nginx::tags]",
+      "recipe[rsc-nginx::collectd]"
     ]
   end
 end

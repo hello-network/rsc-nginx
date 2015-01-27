@@ -17,6 +17,10 @@ depends "nginx", "~> 2.7.4"
 recipe 'rsc-nginx::default', 'Install nginx'
 recipe 'rsc-nginx::start_server', 'start nginx'
 recipe 'rsc-nginx::stop-server', 'stop nginx'
+recipe 'rsc-nginx::tags', 'setup the Rightscale tags for the server'
+recipe 'rsc-nginx::collectd', 'setup monitoring'
+recipe 'rsc-nginx::application_backend', 'attach to the load balancer'
+recipe 'rsc-nginx::application_backend_detached', 'detach from the load balancer'
 
 attribute "nginx/install_method",
   :display_name => "nginx install method",

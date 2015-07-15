@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'berkshelf'
 gem 'thor-foodcritic'
+gem 'chef-rewind'
 
 group :integration do
 # Prior to 0.1.6, libyaml is vulnerable to a heap overflow exploit from malicious YAML payloads.

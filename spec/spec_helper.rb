@@ -18,7 +18,7 @@
 #
 libraries_path = File.expand_path('../../libraries', __FILE__)
 $LOAD_PATH.unshift(libraries_path) unless $LOAD_PATH.include?(libraries_path)
-
+require 'ipaddress'
 require 'chefspec'
 require 'chefspec/berkshelf'
 

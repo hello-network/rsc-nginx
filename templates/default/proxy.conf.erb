@@ -12,7 +12,7 @@ server {
     server_name example.com www.example.com;
 
     charset utf-8;
-<% @proxy_hash['location'].each |location| do %>
+<% @proxy_hash['location'].each do |location| %>
     location <%= location %> {
         <% if @proxy_hash['cache_enable'] %>
         proxy_cache <%= location['proxy_cache'] %>;

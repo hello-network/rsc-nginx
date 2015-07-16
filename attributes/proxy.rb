@@ -1,9 +1,9 @@
-default['nginx']['proxy']['proxy_pass'] = 'http://127.0.0.1:8000'
 default['nginx']['proxy']['cache_enable'] = true
 default['nginx']['proxy']['location'] = [
   '/' =>
   {
-    'proxy_cache_path' => '/tmp/nginx'
+    'proxy_cache_path' => '/tmp/nginx',
+    'proxy_pass' => 'http://127.0.0.1:8000'
   }
 ]
 
@@ -20,4 +20,4 @@ default['nginx']['proxy']['cache']['location'] =  [
       'access_log' => 'off',
       'add_header' => 'Cache-Control "public"'
     }
-  ]
+ ]

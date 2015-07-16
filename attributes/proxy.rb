@@ -4,7 +4,7 @@ default['nginx']['proxy']['location'] = [
   {
     'proxy_cache_path' => '/tmp/nginx',
     'proxy_pass' => 'http://127.0.0.1:8000',
-    'param_file' => '/etc/nginx/proxy_params',
+    'params_file' => '/etc/nginx/proxy_params',
     'params' =>
       {
         'Host' => '$http_host',

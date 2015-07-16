@@ -1,3 +1,5 @@
+
+
 proxy_cache_path /tmp/nginx levels=1:2 keys_zone=my_zone:10m inactive=60m;
 proxy_cache_key "$scheme$request_method$host$request_uri";
 
@@ -10,14 +12,15 @@ server {
     server_name example.com www.example.com;
 
     charset utf-8;
-
-    location / {
+<% @proxy_hash['location'].each |location| do %>
+    location <%= location %> {
         <% if @proxy_hash['cache_enable'] %>
-        proxy_cache <%= @proxy_hash['proxy_cache'] %>;
+        proxy_cache <%= location['proxy_cache'] %>;
         <% end %>
         add_header X-Proxy-Cache $upstream_cache_status;
 
         include proxy_params;
-        proxy_pass <%= node['nginx']['proxy']['proxy_pass'] %>
+        proxy_pass <%= location['proxy_pass'] %>
     }
 }
+<% end %>

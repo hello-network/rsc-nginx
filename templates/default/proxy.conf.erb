@@ -1,5 +1,3 @@
-# Note that these are defined outside of the server block,
-# altho they don't necessarily need to be
 proxy_cache_path /tmp/nginx levels=1:2 keys_zone=my_zone:10m inactive=60m;
 proxy_cache_key "$scheme$request_method$host$request_uri";
 
@@ -14,10 +12,12 @@ server {
     charset utf-8;
 
     location / {
-        proxy_cache my_zone;
+        <% if @proxy_hash['cache_enable'] %>
+        proxy_cache <%= @proxy_hash['proxy_cache'] %>;
+        <% end %>
         add_header X-Proxy-Cache $upstream_cache_status;
 
         include proxy_params;
-        proxy_pass http://172.17.0.18:9000;
+        proxy_pass <%= node['nginx']['proxy']['proxy_pass'] %>
     }
 }

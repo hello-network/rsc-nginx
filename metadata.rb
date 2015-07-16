@@ -4,8 +4,7 @@ maintainer_email 'cookbooks@rightscale.com'
 license          'Apache 2.0'
 description      'Installs/Configures rsc-nginx'
 long_description 'Installs/Configures rsc-nginx'
-version          '0.2.1'
-
+version          '0.3.1'
 
 depends 'yum'
 depends 'apt'

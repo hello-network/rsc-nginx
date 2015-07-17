@@ -1,5 +1,5 @@
 default['nginx']['proxy']['cache_enable'] = true
-default['nginx']['proxy']['location'] = [
+default['nginx']['proxy']['location'] = {
   '/' =>
   {
     'proxy_cache_path' => '/tmp/nginx',
@@ -13,7 +13,7 @@ default['nginx']['proxy']['location'] = [
         'X-Forwarded-Proto' => '$scheme'
       }
   }
-]
+}
 
 default['nginx']['proxy']['cache']['proxy_cache_path']['/tmp/nginx'] =  {
     'levels' => '1:2',

@@ -13,14 +13,14 @@ server {
 
     charset utf-8;
 <% @proxy_hash['location'].each do |location| %>
-    location <%= location %> {
+    location <%= location.first %> {
         <% if @proxy_hash['cache_enable'] %>
         proxy_cache <%= location['proxy_cache'] %>;
         <% end %>
         add_header X-Proxy-Cache $upstream_cache_status;
 
         include proxy_params;
-        proxy_pass <%= location['proxy_pass'] %>
+        proxy_pass <%= location.last['proxy_pass'] %>
     }
 }
 <% end %>

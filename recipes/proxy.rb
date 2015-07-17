@@ -1,4 +1,4 @@
-template "/etc/nginx/sites-available/proxy.conf" do
+template "/etc/nginx/sites-available/proxy" do
   source "proxy.conf.erb"
   owner "root"
   group "root"

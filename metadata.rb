@@ -20,6 +20,7 @@ recipe 'rsc-nginx::stop-server', 'stop nginx'
 recipe 'rsc-nginx::tags', 'setup the Rightscale tags for the server'
 recipe 'rsc-nginx::collectd', 'setup monitoring'
 recipe 'rsc-nginx::proxy', 'setups a reverse proxy'
+recipe 'rsc-nginx::naxsi', 'installs and sets up naxsi'
 recipe 'rsc-nginx::application_backend', 'attach to the load balancer'
 recipe 'rsc-nginx::application_backend_detached', 'detach from the load balancer'
 

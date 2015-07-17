@@ -17,7 +17,7 @@ default['nginx']['proxy']['location'] = {
 
 default['nginx']['proxy']['cache']['proxy_cache_path']['/tmp/nginx'] =  {
     'levels' => '1:2',
-    'keys_zone' => "#{node['nginx']['proxy']['proxy_cache']}:10m",
+    'keys_zone' => "proxy_zone:10m",
     'inactive' => '60m'
   }
 

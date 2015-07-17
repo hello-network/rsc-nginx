@@ -15,7 +15,7 @@ server {
 <% @proxy_hash['location'].each do |location| %>
     location <%= location.first %> {
         <% if @proxy_hash['cache_enable'] %>
-        proxy_cache <%= location['proxy_cache'] %>;
+        proxy_cache <%= node['nginx']['proxy']['cache']['proxy_cache_path'][location.last['proxy_cache_path']]['keys_zone'].split(':').first %>;
         <% end %>
         add_header X-Proxy-Cache $upstream_cache_status;
 

@@ -7,7 +7,9 @@ template "/etc/nginx/sites-available/proxy.conf" do
   action :create
 end
 
+Chef::Log.info node['nginx']['proxy']['location']
 node['nginx']['proxy']['location'].each do |location|
+  Chef::Log.info location.inspect
 
   template location['params_file'] do
     source "proxy_params.conf.erb"

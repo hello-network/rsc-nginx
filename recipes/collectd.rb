@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: rsc_tomcat
+# Cookbook Name:: rsc-ngix
 # Recipe:: collectd
 #
 # Copyright (C) 2014 RightScale, Inc.
@@ -21,7 +21,7 @@ marker 'recipe_start_rightscale' do
   template 'rightscale_audit_entry.erb'
 end
 
-# Setup memcached collectd plugin
+# Setup nginx collectd plugin
 if node['rightscale'] && node['rightscale']['instance_uuid']
   Chef::Log.info "Overriding collectd/fqdn to '#{node['rightscale']['instance_uuid']}'..."
   node.override['collectd']['fqdn'] = node['rightscale']['instance_uuid']

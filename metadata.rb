@@ -49,18 +49,3 @@ attribute 'rsc-nginx/application_name',
   'rsc-nginx::tags',
   'rsc-nginx::application_backend',
   'rsc-nginx::application_backend_detached',]
-  
-  attribute 'rsc_tomcat/vhost_path',
-  :display_name => 'Virtual Host Name/Path',
-  :description => 'The virtual host served by the application server. The virtual host name can be' +
-    ' a valid domain/path name supported by the access control lists (ACLs) in a load balancer.' +
-    ' Ensure that no two application servers in the same deployment having the same' +
-    ' application name have different vhost paths. Example: http:://www.example.com, /index',
-  :required => 'required',
-  :recipes => [
-    'rsc_tomcat::tags',
-    'rsc_tomcat::application_backend',
-  ]
-
-
-

@@ -19,9 +19,11 @@
 
 
 # for collectd
-collectd_modules=node['nginx']['default']['modules']
-collect_modules<<"http_stub_status_module"
+collectd_modules = []
+node['nginx']['default']['modules'].each { |mod| collectd_modules<<mod }
+collectd_modules<<"http_stub_status_module"
 node.default['nginx']['default']['modules'] = collectd_modules
+
 marker 'recipe_start_rightscale' do
   template 'rightscale_audit_entry.erb'
 end
@@ -32,7 +34,7 @@ if node['rightscale'] && node['rightscale']['instance_uuid']
   node.override['collectd']['fqdn'] = node['rightscale']['instance_uuid']
 end
 
-chef_gem 'chechf-rewind'
+chef_gem 'chef-rewind'
 require 'chef/rewind'
 
 log 'Installing memcached collectd plugin...'

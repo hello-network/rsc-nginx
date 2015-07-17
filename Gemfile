@@ -1,19 +1,18 @@
 source 'https://rubygems.org'
 
 gem 'berkshelf'
-
-# Uncomment these lines if you want to live on the Edge:
-#
-# group :development do
-#   gem "berkshelf", github: "berkshelf/berkshelf"
-#   gem "vagrant", github: "mitchellh/vagrant", tag: "v1.5.2"
-# end
-#
-# group :plugins do
-#   gem "vagrant-berkshelf", github: "berkshelf/vagrant-berkshelf"
-#   gem "vagrant-omnibus", github: "schisamo/vagrant-omnibus"
-# end
-
 gem 'thor-foodcritic'
-gem 'test-kitchen'
-gem 'kitchen-vagrant'
+gem 'chef-rewind'
+
+group :integration do
+# Prior to 0.1.6, libyaml is vulnerable to a heap overflow exploit from malicious YAML payloads.
+# This solution is suggested to update psych:
+# https://www.ruby-lang.org/en/news/2014/03/29/heap-overflow-in-yaml-uri-escape-parsing-cve-2014-2525/
+  gem 'psych', '~> 2.0.5'
+  gem 'test-kitchen', '~> 1.2.1'
+  gem 'kitchen-vagrant'
+  gem 'strainer', '~> 3.3.0'
+  gem 'chefspec', '~> 3.4.0'
+  gem 'travis-lint'
+  gem 'rspec-expectations', '~> 2.14.0'
+end

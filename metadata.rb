@@ -9,6 +9,7 @@ version          '0.2.1'
 
 depends 'yum'
 depends 'apt'
+depends 'runit', '= 1.5.10'
 depends 'marker', '~> 1.0.1'
 depends 'collectd', '~> 1.1.0'
 depends 'rightscale_tag', '~> 1.0.5'

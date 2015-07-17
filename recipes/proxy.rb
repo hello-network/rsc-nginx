@@ -19,9 +19,7 @@ node['nginx']['proxy']['location'].each do |location|
   end
 end
 
-service "nginx" do
-  action :status
-end
+service "nginx"
 
 nginx_site "proxy" do
   enable true

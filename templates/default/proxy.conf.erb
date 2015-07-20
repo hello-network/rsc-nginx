@@ -1,5 +1,5 @@
 <%
-default['nginx']['proxy']['cache']['proxy_cache_path'].each do |path|
+node['nginx']['proxy']['cache']['proxy_cache_path'].each do |path|
   path_string='proxy_cache_path'
   path_string+=" #{ path.first}"
   path.last.each do |k,v|

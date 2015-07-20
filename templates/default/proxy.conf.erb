@@ -5,7 +5,7 @@ node['nginx']['proxy']['cache']['proxy_cache_path'].each do |path|
   path.last.each do |k,v|
     path_string+=" #{k}=#{v}"
   end %>
-<%=path_string%>
+<%=path_string%>;
 <%end%>
 
 proxy_cache_key "$scheme$request_method$host$request_uri";

@@ -24,5 +24,6 @@ end
 node.force_override['nginx']['install_method'] = 'source'
 node.force_override['nginx']['version'] = '1.9.3'
 node.force_override['nginx']['source']['version'] = '1.9.3'
+node.default['nginx']['source']['url'] = "http://nginx.org/download/nginx-#{node['nginx']['source']['version']}.tar.gz"
 
 include_recipe "nginx::source"

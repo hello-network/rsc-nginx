@@ -22,6 +22,6 @@ marker "recipe_start_rightscale" do
 end
 
 node.override['nginx']['install_method'] = 'source'
-node.force_override['nginx']['version'] = '1.9.3'
+node.override['nginx']['version'] = '1.9.3'
 
 include_recipe "nginx::source"

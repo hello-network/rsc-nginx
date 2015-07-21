@@ -2,5 +2,12 @@ marker 'recipe_start_rightscale' do
   template 'rightscale_audit_entry.erb'
 end
 
-node.override['nginx']['install_method'] = 'source'
+@nginx_modules=[]
+
+node['nginx']['default']['modules'].each do |mod|
+  @nginx_modules<<mod
+end
+
+node.default['nginx']['default']['modules'] = @nginx_modules
+
 include_recipe "nginx::naxsi_module"

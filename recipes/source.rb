@@ -21,7 +21,8 @@ marker "recipe_start_rightscale" do
   template "rightscale_audit_entry.erb"
 end
 
-node.override['nginx']['install_method'] = 'source'
-node.override['nginx']['version'] = '1.9.3'
+node.force_override['nginx']['install_method'] = 'source'
+node.force_override['nginx']['version'] = '1.9.3'
+node.force_override['nginx']['source']['version'] = '1.9.3'
 
 include_recipe "nginx::source"

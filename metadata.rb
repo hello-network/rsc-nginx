@@ -12,9 +12,10 @@ depends 'runit', '= 1.5.10'
 depends 'marker', '~> 1.0.1'
 depends 'collectd', '~> 1.1.0'
 depends 'rightscale_tag', '~> 1.0.5'
-depends "nginx", "~> 2.7.4"
+depends "nginx", "~> 2.7.6"
 
 recipe 'rsc-nginx::default', 'Install nginx'
+recipe 'rsc-nginx::source', 'installs nginx from source'
 recipe 'rsc-nginx::start_server', 'start nginx'
 recipe 'rsc-nginx::stop-server', 'stop nginx'
 recipe 'rsc-nginx::tags', 'setup the Rightscale tags for the server'

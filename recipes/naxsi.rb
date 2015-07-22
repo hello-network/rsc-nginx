@@ -11,6 +11,7 @@ include_recipe 'nginx::commons_script'
 node['nginx']['default']['modules'].each do |mod|
   @nginx_modules<<mod
 end
+@nginx_modules<<'naxsi_module'
 
 node.default['nginx']['default']['modules'] = @nginx_modules
 

@@ -13,7 +13,12 @@ node['nginx']['default']['modules'].each do |mod|
 end
 @nginx_modules<<'naxsi_module'
 
+node['nginx']['source']['modules'].each do |mod|
+  @nginx_modules<<mod
+end
+
 node.default['nginx']['default']['modules'] = @nginx_modules
+node.default['nginx']['source']['modules'] = @nginx_modules
 
 include_recipe "nginx::naxsi_module"
 

@@ -27,6 +27,8 @@ naxsi_extract_path = "#{Chef::Config['file_cache_path']}/nginx-naxsi-#{node['ngi
 node.run_state['nginx_configure_flags'] =
   node.run_state['nginx_configure_flags'] | ["--add-module=#{naxsi_extract_path}/naxsi-#{node['nginx']['naxsi']['version']}/naxsi_src"]
 
+node.set['nginx']['proxy']['location']['/']['include'] = '/etc/nginx/naxsi.rules'
+
 include_recipe "rsc-nginx::source"
 
 template "/etc/nginx/naxsi.rules" do

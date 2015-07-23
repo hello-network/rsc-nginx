@@ -24,6 +24,9 @@ server {
         <% if @proxy_hash['cache_enable'] %>
         proxy_cache <%= node['nginx']['proxy']['cache']['proxy_cache_path'][location.last['proxy_cache_path']]['keys_zone'].split(':').first %>;
         <% end %>
+        <% if !@proxy_hash['include'].nil? %>
+        include <%= @proxy_hash['include'] %>;
+        <% end %>
         add_header X-Proxy-Cache $upstream_cache_status;
 
         include proxy_params;

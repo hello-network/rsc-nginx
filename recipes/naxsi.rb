@@ -22,8 +22,16 @@ end
 node.default['nginx']['default']['modules'] = @nginx_modules
 node.default['nginx']['source']['modules'] = @nginx_source_modules
 
-#include_recipe "nginx::naxsi_module"
-
 naxsi_extract_path = "#{Chef::Config['file_cache_path']}/nginx-naxsi-#{node['nginx']['naxsi']['version']}"
 node.run_state['nginx_configure_flags'] =
   node.run_state['nginx_configure_flags'] | ["--add-module=#{naxsi_extract_path}/naxsi-#{node['nginx']['naxsi']['version']}/naxsi_src"]
+
+include_recipe "rsc-nginx::source"
+
+template "/etc/nginx/naxsi.rules" do
+  source "naxsi.rules.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  action :create
+end

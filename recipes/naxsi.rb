@@ -18,6 +18,8 @@ node['nginx']['source']['modules'].each do |mod|
   @nginx_source_modules<<mod
 end
 @nginx_source_modules<<'nginx::naxsi_module'
+@nginx_source_modules<<'nginx::http_geoip_module'
+@nginx_source_modules<<'nginx::ngx_lua_module'
 
 node.default['nginx']['default']['modules'] = @nginx_modules
 node.default['nginx']['source']['modules'] = @nginx_source_modules

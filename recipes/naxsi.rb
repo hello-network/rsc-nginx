@@ -37,3 +37,53 @@ template "/etc/nginx/naxsi.rules" do
   mode 0644
   action :create
 end
+
+Chef::Log.info "adding nx_util"
+
+package "python" do
+  action :install
+end
+
+bash "install nx_util" do
+  cwd ::File.join(naxsi_extract_path,"naxsi-#{node['nginx']['naxsi']['version']}",'nx_util')
+  code <<-EOF
+    python setup.py install
+  EOF
+end
+
+directory "/var/cache/nginx" do
+  owner "root"
+  group "root"
+  mode "0777"
+  action :create
+end
+
+template "/usr/local/etc/nx_util.conf" do
+  source "nx_util.conf.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  action :create
+end
+
+template "/etc/nginx/sites-available/nginx-ui" do
+  source 'nginx-ui.conf.erb'
+  owner "root"
+  group "root"
+  mode 0644
+  action :create
+end
+
+service "nginx"
+
+nginx_site "nginx-ui" do
+  enable true
+end
+
+cron "nginx-ui" do
+  minute '1'
+  command '/usr/local/bin/nx_util.py -l /var/log/nginx/*.log -c /usr/local/etc/nx_util.conf -H /var/cache/nginx/index.html -i'
+  action :create
+end
+
+execute "/usr/local/bin/nx_util.py -l /var/log/nginx/*.log -c /usr/local/etc/nx_util.conf -H /var/cache/nginx/index.html -i"

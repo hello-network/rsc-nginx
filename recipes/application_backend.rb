@@ -25,17 +25,18 @@ class Chef::Recipe
   include Rightscale::RightscaleTag
 end
 
+node['rsc-nginx']['application_pool_list'].split(',').each do |app_name|
 # Validate application name
-RsApplicationNginx::Helper.validate_application_name(node['rsc-nginx']['application_name'])
+RsApplicationNginx::Helper.validate_application_name(app_name)
 
 # Check if there is at least one load balancer in the deployment serving the application name
-if find_load_balancer_servers(node, node['rsc-nginx']['application_name']).empty?
-  raise "No load balancer servers found in the deployment serving #{node['rsc-nginx']['application_name']}!"
+if find_load_balancer_servers(node, app_name).empty?
+  raise "No load balancer servers found in the deployment serving #{app_name}!"
 end
 
 # Put this backend into consideration during tag queries
 log 'Tagging the application server to put it into consideration during tag queries...'
-machine_tag "application:active_#{node['rsc-nginx']['application_name']}=true" do
+machine_tag "application:active_#{app_name}=true" do
   action :create
 end
 
@@ -48,7 +49,7 @@ file remote_request_json do
       'application_bind_ip' => RsApplicationNginx::Helper.get_bind_ip_address(node),
       'application_bind_port' => node['rsc-nginx']['listen_port'],
       'application_server_id' => node['rightscale']['instance_uuid'],
-      'pool_name' => node['rsc-nginx']['application_name'],
+      'pool_name' => app_name,
       'vhost_path' => node['rsc-nginx']['vhost_path'],
       'application_action' => 'attach'
     }
@@ -57,17 +58,18 @@ end
 
 # Send remote recipe request
 log "Running recipe '#{node['rsc-nginx']['remote_attach_recipe']}' on all load balancers" +
- " with tags 'load_balancer:active_#{node['rsc-nginx']['application_name']}=true'..."
+ " with tags 'load_balancer:active_#{app_name}=true'..."
 
 execute 'Attach to load balancer(s)' do
   command [
     'rs_run_recipe',
     '--name', node['rsc-nginx']['remote_attach_recipe'],
-    '--recipient_tags', "load_balancer:active_#{node['rsc-nginx']['application_name']}=true",
+    '--recipient_tags', "load_balancer:active_#{app_name}=true",
     '--json', remote_request_json
   ]
 end
 
 file remote_request_json do
   action :delete
+end
 end

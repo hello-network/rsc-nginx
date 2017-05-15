@@ -4,7 +4,7 @@ maintainer_email 'cookbooks@rightscale.com'
 license          'Apache 2.0'
 description      'Installs/Configures rsc-nginx'
 long_description 'Installs/Configures rsc-nginx'
-version          '0.2.1'
+version          '0.2.2'
 
 
 depends 'yum'
@@ -50,7 +50,7 @@ attribute 'rsc-nginx/application_name',
   'rsc-nginx::application_backend',
   'rsc-nginx::application_backend_detached',]
   
-  attribute 'rsc_tomcat/vhost_path',
+attribute 'rsc_tomcat/vhost_path',
   :display_name => 'Virtual Host Name/Path',
   :description => 'The virtual host served by the application server. The virtual host name can be' +
     ' a valid domain/path name supported by the access control lists (ACLs) in a load balancer.' +
@@ -62,5 +62,12 @@ attribute 'rsc-nginx/application_name',
     'rsc_tomcat::application_backend',
   ]
 
-
-
+attribute 'rsc-nginx/application_pool_list',
+  :display_name => 'Application Pool List',
+  :description => 'A CSV list of application pools to connect to on the front end',
+  :required => 'required',
+  :recipes => [
+  'rsc-nginx::default',
+  'rsc-nginx::tags',
+  'rsc-nginx::application_backend',
+  'rsc-nginx::application_backend_detached']

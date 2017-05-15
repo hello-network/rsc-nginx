@@ -25,12 +25,13 @@ class Chef::Recipe
   include Rightscale::RightscaleTag
 end
 
+node['rsc-nginx']['application_pool_list'].split(',').each do |app_name|
 # Validate application name
-RsApplicationNginx::Helper.validate_application_name(node['rsc-nginx']['application_name'])
+RsApplicationNginx::Helper.validate_application_name(app_name)
 
 # Put this backend out of consideration during tag queries
 log 'Tagging the application server to take it out of consideration during tag queries...'
-machine_tag "application:active_#{node['rsc-nginx']['application_name']}=false" do
+machine_tag "application:active_#{app_name}=false" do
   action :create
 end
 
@@ -41,7 +42,7 @@ file remote_request_json do
   content ::JSON.pretty_generate({
       'remote_recipe' => {
         'application_server_id' => node['rightscale']['instance_uuid'],
-        'pool_name' => node['rsc-nginx']['application_name'],
+        'pool_name' => app_name,
         'application_action' => 'detach'
       }
     })
@@ -49,17 +50,18 @@ end
 
 # Send remote recipe request
 log "Running recipe '#{node['rsc-nginx']['remote_detach_recipe']}' on all load balancers" +
-  " with tags 'load_balancer:active_#{node['rsc-nginx']['application_name']}=true'..."
+  " with tags 'load_balancer:active_#{app_name}=true'..."
 
 execute 'Detach from load balancer(s)' do
   command [
     'rs_run_recipe',
     '--name', node['rsc-nginx']['remote_detach_recipe'],
-    '--recipient_tags', "load_balancer:active_#{node['rsc-nginx']['application_name']}=true",
+    '--recipient_tags', "load_balancer:active_#{app_name}=true",
     '--json', remote_request_json
   ]
 end
 
 file remote_request_json do
   action :delete
+end
 end
